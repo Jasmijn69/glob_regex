@@ -42,3 +42,10 @@ yourself before calling — the function takes a glob string, not a list.
   If you need to match across separators, write `a/**/b`.
 - `case_sensitive=False` embeds `(?i)` directly in the returned string. If you
   later wrap it in another regex, that flag still applies — which is the intent.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
